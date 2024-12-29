@@ -1,11 +1,11 @@
-import YA_SKAZAL_NE_LEZ_SOHRET
+import secret_token
 import telebot
 import json
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-bot=telebot.TeleBot(YA_SKAZAL_NE_LEZ_SOHRET.token)
+bot=telebot.TeleBot(secret_token.token_bot)
 
 v=[]
 @bot.message_handler(["start"])
@@ -86,7 +86,7 @@ def obrabotka_knopok(klick):
         if spisok[0]!="":
 
             v.append(f"{spisok[0]}/")
-        print(v)
+
 
         bot.edit_message_text(chat_id=klick.message.chat.id, message_id=klick.message.message_id,
                               text="ваш поток успешно определен ищу для вас статьи"
@@ -134,6 +134,7 @@ def zhaloba(message):
     fail.close()
     fail = open("file.json", "w", encoding="UTF-8")
     json.dump(slovari, fail, ensure_ascii=False, indent=4)
+    bot.send_message(message.chat.id,"ваша жалоба успешно отправлена!")
     fail.close()
 def sozdanie_knopok_top_ili_net():
     spisok_knopok = telebot.types.InlineKeyboardMarkup()
@@ -194,7 +195,7 @@ def potok(v,message):
     m=""
     for i in v:
         m+=i
-    print(m)
+
     chrome = webdriver.Chrome()
     chrome.get(f"https://habr.com/ru/articles/{m}")
     m = ""
